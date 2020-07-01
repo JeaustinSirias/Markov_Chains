@@ -1,17 +1,6 @@
 # UNA SOLUCION A LA TAREA 4 POR JEAUSTIN SIRIAS
-===============================================
 
-## Resumen:
-
-
-## Indice de figuras
-
-- [Esquema de modulacion BPSK](https://github.com/JeaustinSirias/Tarea4_B66861/blob/master/Raw_BPSK_sgn.png)
-- [Esquema de modulacion BPSK con ruido agregado para valores distintos del SNR](https://github.com/JeaustinSirias/Tarea4_B66861/blob/master/noised_BPSK_sgn.png)
-- [Densidad espectral de potencia por el metodo de Welch sin contaminacion por ruido](https://github.com/JeaustinSirias/Tarea4_B66861/blob/master/WelchRaw_BPSK_sgn.png)
-- [Densidad espectral de potencia por el metodo de Welch con contaminacion por ruido](https://github.com/JeaustinSirias/Tarea4_B66861/blob/master/WelchNoised_BPSK_sgn.png)
-- [Tada de error en los bits vs SNR](https://github.com/JeaustinSirias/Tarea4_B66861/blob/master/bit_error_rate.png).
-
+## Resumen
 Se muestra una solucion programada para la Tarea 4 del curso Modelos probabilisticos de senales y sistemas empleando las siguientes librerias en el IDE SublimeText3 como interprete de Python:
 
 	import csv
@@ -22,6 +11,16 @@ Se muestra una solucion programada para la Tarea 4 del curso Modelos probabilist
 	from scipy import signal
 	import scipy as spy
 	from decimal import *
+
+
+## Indice de figuras
+
+- [Esquema de modulacion BPSK](https://github.com/JeaustinSirias/Tarea4_B66861/blob/master/Raw_BPSK_sgn.png)
+- [Esquema de modulacion BPSK con ruido agregado para valores distintos del SNR](https://github.com/JeaustinSirias/Tarea4_B66861/blob/master/noised_BPSK_sgn.png)
+- [Densidad espectral de potencia por el metodo de Welch sin contaminacion por ruido](https://github.com/JeaustinSirias/Tarea4_B66861/blob/master/WelchRaw_BPSK_sgn.png)
+- [Densidad espectral de potencia por el metodo de Welch con contaminacion por ruido](https://github.com/JeaustinSirias/Tarea4_B66861/blob/master/WelchNoised_BPSK_sgn.png)
+- [Tada de error en los bits vs SNR](https://github.com/JeaustinSirias/Tarea4_B66861/blob/master/bit_error_rate.png).
+
 
 ### ACTIVIDAD 1: Construyendo un esquema de modulacion BPSK a partir de un frasco de bits
 
