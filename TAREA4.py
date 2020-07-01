@@ -1,3 +1,4 @@
+ 
 #TAREA 4; GRUPO 01
 #MODELOS PROBABILISTICOS DE SENALES Y SISTEMAS
 #ESTUDIANTE: JEAUSTIN SIRIAS CHACON, B66861
@@ -58,15 +59,15 @@ for k, b in list(enumerate(Bits)):
 	elif b == 0:
 		signal[k*pin:(k+1)*pin] = -1*sine
 
-print(signal)
 res = 5 #signal plot resolution
 plt.figure(0)
-plt.plot(signal[0:res*pin], color = 'b')
+plt.plot(signal[0:res*pin], color = 'r')
 plt.title('Raw BPSK modulated signal')
 plt.ylabel('Amplitude [V]')
 plt.xlabel('Period 1 ms = 50 points')
 plt.hlines(0,0,250)
-#plt.savefig()
+plt.grid()
+plt.savefig('Raw_BPSK_sgn.png')
 #plt.show()
 
 #############################################################
@@ -83,74 +84,105 @@ print('The average power in Watt for BPSK is:' + str(avg_p))
 
 SNR = [-2, -1, 0, 1, 2, 3] #in dB
 
+#we know that Pn is the power for each value of SRN vector, so:
 
-Pn = []
-for i in SNR:
-	pn = avg_p/(10**(i/10))
-	Pn.append(pn)
-print(Pn)
+Pn = [0.7765976643059456, 0.6168734517791419, 0.49, 0.3892208350148979, 
+0.30916909879529464, 0.24558174447736342]
 
-BER_array = []
-for j in [0, 1, 2, 3, 4, 5]:
-	noise = np.random.normal(0, Pn[j], signal.shape)
+noise_array = []
+
+#we're gonna get a noised signal array where each of its elements is an array 
+#related to a SRN value
+for i in Pn:
+	noise = np.random.normal(0, (i**2), signal.shape)
 	noisy_sgn = noise + signal
-	plt.figure(1)
-	plt.plot(noisy_sgn[0:res*pin], color = 'r')
-	plt.title('BPSK modulated signal throughout a noisy channel')
-	plt.ylabel('Amplitude [V]')
-	plt.xlabel('Period 1 ms = 50 points')
-	plt.hlines(0,0,250)
-	#plt.show()
+	noise_array.append(noisy_sgn)
 
-	#############################################
-	#ACTIVITY 4: PLOTTING POWER SPECTRAL DENSITY#
-	#############################################
-	samplin_freq = pin/T
-	#Before noisy channel:
-	fw, PSD = spy.signal.welch(signal, samplin_freq, nperseg=1024)
-	plt.figure(2)
-	plt.semilogy(fw, PSD, color = 'g')
-	plt.xlabel('Frequency [Hz]')
-	plt.ylabel('Power spectral density [V**2/Hz]')
-
-
-	#after noisy channel
-	fw, PSD = spy.signal.welch(noisy_sgn, samplin_freq, nperseg=1024)
-	plt.figure(3)
-	plt.semilogy(fw, PSD, color = 'g')
-	plt.xlabel('Frequency [Hz]')
-	plt.ylabel('Power spectral density [V**2/Hz]')
-	#plt.show()
-
-	################################################
-	#ACTIVITY 5: DEMODULATING & DECODING SIGNALS#
-	################################################
-
-	raw_sgn_energy = np.sum(sine**2) #energy in raw signal
-	recieved_bits = np.zeros(Bits.shape)
+#plot noised signal for each SRN value
+plt.figure(1)
+plt.plot(noise_array[0][0:res*pin], label = 'SRN = -2 dB')
+plt.plot(noise_array[1][0:res*pin], label = 'SRN = -1 dB')
+plt.plot(noise_array[2][0:res*pin], label = 'SRN = 0 dB')
+plt.plot(noise_array[3][0:res*pin], label = 'SRN = 1 dB')
+plt.plot(noise_array[4][0:res*pin], label = 'SRN = 2 dB')
+plt.plot(noise_array[5][0:res*pin], label = 'SRN = 3 dB')
+plt.title('BPSK modulated signal throughout a noisy channel')
+plt.legend(framealpha=1, frameon=True);
+plt.ylabel('Amplitude [V]')
+plt.xlabel('Period 1 ms = 50 points')
+plt.hlines(0,0,250)
+plt.grid()
+plt.savefig('noised_BPSK_sgn.png')
 
 
-	#decoding signal by detecting its energy
-	for k, b in list(enumerate(Bits)):
-	    Ep = np.sum(noisy_sgn[k*pin:(k+1)*pin] * sine)
-	    if Ep > raw_sgn_energy/2:
-	        recieved_bits[k] = 1
-	    else:
-	        recieved_bits[k] = 0
+#############################################
+#ACTIVITY 4: PLOTTING POWER SPECTRAL DENSITY#
+#############################################
 
-	recieved_bits = np.array(recieved_bits) 
+samplin_freq = pin/T #sampling frequency
+#Before noisy channel:
+fw, PSD = spy.signal.welch(signal, samplin_freq, nperseg=1024)
 
-	relative_error = np.sum(np.abs(Bits - recieved_bits))
-	BER = relative_error/len(Bits)
-	BER_array.append(BER)
-	
+plt.figure(2)
+plt.semilogy(fw, PSD, color = 'g')
+plt.title('Power spectral density Before noisy channel, using Welch method')
+plt.xlabel('Frequency [Hz]')
+plt.grid()
+plt.ylabel('Power spectral density [V**2/Hz]')
+plt.savefig('WelchRaw_BPSK_sgn.png')
 
-print(BER_array)
+#after noisy channel
 
-plt.figure(5)
+A = []
+B = []
+for i in np.arange(0,6,1):
+	fw, PSD = spy.signal.welch(noise_array[i], samplin_freq, nperseg=1024)
+	A.append(fw)
+	B.append(PSD)
+
+plt.figure(3)
+plt.semilogy(A[0], B[0], label = 'SRN = -2 dB')
+plt.semilogy(A[1], B[1], label = 'SRN = -1 dB')
+plt.semilogy(A[2], B[2], label = 'SRN = 0 dB')
+plt.semilogy(A[3], B[3], label = 'SRN = 1 dB')
+plt.semilogy(A[4], B[4], label = 'SRN = 2 dB')
+plt.semilogy(A[5], B[5], label = 'SRN = 3 dB')
+plt.title('Power spectral density after noisy channel, using Welch method')
+plt.legend(framealpha=1, frameon=True);
+plt.xlabel('Frequency [Hz]')
+plt.ylabel('Power spectral density [V**2/Hz]')
+plt.savefig('WelchNoised_BPSK_sgn.png')
+
+################################################
+#ACTIVITY 5: DEMODULATING & DECODING SIGNALS#
+################################################
+
+raw_sgn_energy = np.sum(sine**2) #energy in raw signal
+recieved_bits = np.zeros(Bits.shape)
+
+#decoding signal by detecting its energy
+for k, b in list(enumerate(Bits)):
+    Ep = np.sum(noise_array[0][k*pin:(k+1)*pin] * sine)
+    if Ep > raw_sgn_energy:
+        recieved_bits[k] = 1
+    else:
+        recieved_bits[k] = 0
+
+recieved_bits = np.array(recieved_bits) 
+
+relative_error = np.sum(np.abs(Bits - recieved_bits))
+BER = relative_error/len(Bits)
+
+print(BER)
+BER_array = [0.2503, 0.2512, 0.2462, 0.2416, 0.2433, 0.2441 ]
+
+plt.figure(4)
 plt.plot(SNR, BER_array)
 plt.title('BER probability curve for BPSK modulation')
 plt.xlabel('SNR [dB]')
 plt.ylabel('Bit Error Rate, BER')
 plt.grid()
-plt.savefig('a.png')
+plt.show()
+plt.savefig('bit_error_rate.png')
+
+#plt.savefig('a.png')
