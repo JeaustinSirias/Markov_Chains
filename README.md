@@ -1,7 +1,16 @@
-# UNA SOLUCION A LA TAREA 4
-===========================
+# UNA SOLUCION A LA TAREA 4 POR JEAUSTIN SIRIAS
+===============================================
 
 ## Resumen:
+
+
+## Indice de figuras
+
+- [Esquema de modulacion BPSK](https://github.com/JeaustinSirias/Tarea4_B66861/blob/master/Raw_BPSK_sgn.png)
+- [Esquema de modulacion BPSK con ruido agregado para valores distintos del SNR](https://github.com/JeaustinSirias/Tarea4_B66861/blob/master/noised_BPSK_sgn.png)
+- [Densidad espectral de potencia por el metodo de Welch sin contaminacion por ruido](https://github.com/JeaustinSirias/Tarea4_B66861/blob/master/WelchRaw_BPSK_sgn.png)
+- [Densidad espectral de potencia por el metodo de Welch con contaminacion por ruido](https://github.com/JeaustinSirias/Tarea4_B66861/blob/master/WelchNoised_BPSK_sgn.png)
+- [Tada de error en los bits vs SNR](https://github.com/JeaustinSirias/Tarea4_B66861/blob/master/bit_error_rate.png).
 
 Se muestra una solucion programada para la Tarea 4 del curso Modelos probabilisticos de senales y sistemas empleando las siguientes librerias en el IDE SublimeText3 como interprete de Python:
 
@@ -37,7 +46,7 @@ GN
 		elif b == 0:
 			signal[k*pin:(k+1)*pin] = -1*sine
 
-La modulacion BPSK obtenida puede obserbarse [aqui]().
+La modulacion BPSK obtenida puede observarse [aqui](https://github.com/JeaustinSirias/Tarea4_B66861/blob/master/Raw_BPSK_sgn.png).
 
 ### ACTIVIDAD 2: Calculando la potencia promedio de la señal modulada 
 
@@ -67,7 +76,7 @@ Siendo el arreglo Pn la potencia del ruido asociado en Watt a cada valor del vec
 	noise = np.random.normal(0, (Pn[j])**2, signal.shape) #where (Pn[j])**2 equals sigma.
 	noisy_sgn = noise + signal
 
-El resultado es una onda modulada por BPSK contaminada en funcion del SNR como se muestra en esta [figura]()
+El resultado es una onda modulada por BPSK contaminada en funcion del SNR como se muestra en esta [figura](https://github.com/JeaustinSirias/Tarea4_B66861/blob/master/noised_BPSK_sgn.png)
 
 ### ACTIVIDAD 4: Graficando la densidad espectral de potencia de la señal con el método de Welch antes y después del canal ruidoso
 
@@ -77,7 +86,7 @@ Una forma de obtener el espectro de potencia antes de la señal ser interferida 
 	#Before noisy channel:
 	fw, PSD = spy.signal.welch(signal, samplin_freq, nperseg=1024)
 
-Estas lineas arrojan como resultado la presente [figura](). Por el otro extremo suponiendo que la señal ya ha dejado el canal ruidoso, entonces, una forma programada para determinar el espectro de frecuencia para cada valor de SNR es:
+Estas lineas arrojan como resultado la presente [figura](https://github.com/JeaustinSirias/Tarea4_B66861/blob/master/WelchRaw_BPSK_sgn.png). Por el otro extremo suponiendo que la señal ya ha dejado el canal ruidoso, entonces, una forma programada para determinar el espectro de frecuencia para cada valor de SNR es:
 
 	#after noisy channel
 	A = []
@@ -87,7 +96,7 @@ Estas lineas arrojan como resultado la presente [figura](). Por el otro extremo 
 		A.append(fw) #this is an array which contanins all fw cases for SNR vaules
 		B.append(PSD) #this is an array which contanins all PSD cases for SNR vaules
 
-Al final el resultado es una unica [figura] que contiene todas las curvas de los espectros de frecuencia.
+Al final el resultado es una unica [figura](https://github.com/JeaustinSirias/Tarea4_B66861/blob/master/WelchNoised_BPSK_sgn.png) que contiene todas las curvas de los espectros de frecuencia.
 
 
 ### ACTIVIDAD 5: Demodulando y decodificando la señal para elaborar un conteo de la tasa de error de bits (BER) para cada nivel SNR.
@@ -122,10 +131,10 @@ Implementando las siguientes lineas:
 	plt.grid()
 	plt.show()
 
-se obtiene el resultado que se muestra en esta [figura]().
+se obtiene el resultado que se muestra en esta [figura](https://github.com/JeaustinSirias/Tarea4_B66861/blob/master/bit_error_rate.png).
 
 
 
 
 
-
+ia 
