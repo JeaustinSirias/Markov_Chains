@@ -1,4 +1,4 @@
-# UNA SOLUCION A LA TAREA 4 POR JEAUSTIN SIRIAS
+# Project description [Spanish]
 
 ## Resumen
 Se muestra una solucion programada para la Tarea 4 del curso Modelos probabilisticos de senales y sistemas empleando las siguientes librerias en el IDE SublimeText3 como interprete de Python:
